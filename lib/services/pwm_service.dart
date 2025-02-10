@@ -1,5 +1,6 @@
 import 'package:dart_periphery/dart_periphery.dart';
 import 'package:flutter/foundation.dart';
+
 // import 'package:led_on_off_pwm/services/gpio_service.dart';
 // Must follow the how to enabl e PWM in the Raspberry Pi
 // Located at the readme page.
@@ -14,9 +15,9 @@ class PwmService {
 
   PwmService._internal() {
     try {
-      pwm0 = PWM(2, 0);
+      pwm0 = PWM(0, 0); // Using Pin 18 on Model 4B
       // Model 5, pwm(2,0), pwm(2,1), pwm(2,2) or pwm(2,3) only these pins: 12, 13, 18 or 19
-      // Model 4B, pwm(0,0) or pwm(0,1) only 2 of these pins: 12, 13, 18 or 19
+      // Model 4B, pwm(0,0) or pwm(0,1) you can use a max of 2 of these pins: 12, 13, 18 or 19
       debugPrint('PwmService Initialized: ${pwm0.getPWMinfo()}');
     } catch (e) {
       debugPrint('Error initializing PwmService: $e');
@@ -77,9 +78,8 @@ class PwmService {
   //Disposal
   // Add all the enabled pwms to the dispose method
   void dispose() {
-  pwm0.disable();
-  pwm0.dispose();
-  debugPrint('PWM resources released');
-}
-
+    pwm0.disable();
+    // pwm0.dispose();
+    debugPrint('PWM resources released');
+  }
 } // End of class PwmService
